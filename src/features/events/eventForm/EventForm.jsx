@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
+import { createEvent, updateEvent } from "../../../redux/events/actions.js";
 
-export default function EventForm({
-  setFormOpen,
-  createEvent,
-  selectedEvent,
-  updateEvent,
-}) {
+export default function EventForm({ match, history }) {
+  const dispatch = useDispatch();
+  const selectedEvent = useSelector((state) =>
+    state.event.events.find((e) => e.id === match.params.id)
+  );
   const initialValues = selectedEvent ?? {
     title: "",
     category: "",
@@ -26,15 +27,17 @@ export default function EventForm({
 
   function handleFormSubmit() {
     selectedEvent
-      ? updateEvent({ ...selectedEvent, ...values })
-      : createEvent({
-          ...values,
-          id: Math.ceil(Math.random() * 100),
-          attendees: [],
-          hostedBy: "John",
-          hostPhotoURL: "/assets/user.png",
-        });
-    setFormOpen(false);
+      ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+      : dispatch(
+          createEvent({
+            ...values,
+            id: Math.ceil(Math.random() * 100).toString(),
+            attendees: [],
+            hostedBy: "John",
+            hostPhotoURL: "/assets/user.png",
+          })
+        );
+    history.push("/events");
   }
 
   return (
