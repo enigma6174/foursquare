@@ -21,10 +21,11 @@ export default function NavBar({ setFormOpen }) {
           FourSquare
         </Menu.Item>
         <Menu.Item as={NavLink} exact to="/events" name="Events" />
+        <Menu.Item as={NavLink} exact to="/sandbox" name="Sandbox" />
         <Menu.Item>
           {authenticated && (
             <Button
-              onClick={() => setFormOpen(true)}
+              // onClick={() => setFormOpen(true)}
               as={Link}
               to="/create"
               positive
