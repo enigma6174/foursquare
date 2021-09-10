@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button, Icon, Item, List, Segment } from "semantic-ui-react";
 import { deleteEvent } from "../../../redux/events/actions";
 import EventListAttendee from "./EventListAttendee";
+import { format } from "date-fns";
 
 export default function EventListItem({ event, selectEvent }) {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export default function EventListItem({ event, selectEvent }) {
       </Segment>
       <Segment>
         <span>
-          <Icon name="clock" /> {event.date}
+          <Icon name="clock" /> {format(event.date, "MMMM d, yyyy HHmm")} hours
           <Icon name="marker" /> {event.venue}
         </span>
       </Segment>
