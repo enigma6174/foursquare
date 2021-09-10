@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
+import { openModal } from "../../redux/modal/action";
 import { decrement, increment, reset } from "../../redux/sandbox/actions";
 
 export default function Sandbox() {
@@ -25,6 +26,13 @@ export default function Sandbox() {
         onClick={() => dispatch(reset())}
         color="twitter"
         content="Reset"
+      />
+      <Button
+        onClick={() =>
+          dispatch(openModal({ modalType: "TestModal", modalProps: { data } }))
+        }
+        color="grey"
+        content="Open Modal"
       />
     </div>
   );
