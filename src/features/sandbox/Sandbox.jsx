@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
 import { openModal } from "../../redux/modal/action";
 import { decrement, increment, reset } from "../../redux/sandbox/actions";
+import TestMap from "./TestMap";
+import TestPlaceInput from "./TestPlaceInput";
 
 export default function Sandbox() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.sandbox.data);
+
+  const defaultProps = {
+    center: {
+      lat: 10.99835602,
+      lng: 77.01502627,
+    },
+    zoom: 11,
+  };
+
+  const [location, setLocation] = useState(defaultProps);
+
+  function updateLocation(coordinates) {
+    setLocation({
+      ...location,
+      center: { lat: coordinates["lat"], lng: coordinates["lng"] },
+    });
+  }
 
   return (
     <div>
@@ -34,6 +53,10 @@ export default function Sandbox() {
         color="grey"
         content="Open Modal"
       />
+      <div style={{ marginTop: 15 }}>
+        <TestPlaceInput setCoordinates={updateLocation} />
+        <TestMap location={location} />
+      </div>
     </div>
   );
 }
