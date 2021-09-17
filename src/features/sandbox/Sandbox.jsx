@@ -9,6 +9,7 @@ import TestPlaceInput from "./TestPlaceInput";
 export default function Sandbox() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.sandbox.data);
+  const { loading } = useSelector((state) => state.async);
 
   const defaultProps = {
     center: {
@@ -19,6 +20,7 @@ export default function Sandbox() {
   };
 
   const [location, setLocation] = useState(defaultProps);
+  const [target, setTarget] = useState(null);
 
   function updateLocation(coordinates) {
     setLocation({
@@ -27,17 +29,31 @@ export default function Sandbox() {
     });
   }
 
+  function handleIncrement(e) {
+    dispatch(increment(5));
+    setTarget(e.target.name);
+  }
+
+  function handleDecrement(e) {
+    dispatch(decrement(1));
+    setTarget(e.target.name);
+  }
+
   return (
     <div>
       <h1>TESTING</h1>
       <h1>DATA IS {data}</h1>
       <Button
-        onClick={() => dispatch(increment(3))}
+        name="increment"
+        onClick={handleIncrement}
+        loading={loading && target === "increment"}
         color="green"
         content="Increment"
       />
       <Button
-        onClick={() => dispatch(decrement(1))}
+        name="decrement"
+        onClick={handleDecrement}
+        loading={loading && target === "decrement"}
         color="red"
         content="Decrement"
       />
